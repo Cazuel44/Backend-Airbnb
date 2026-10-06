@@ -20,6 +20,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
     try {
         const decoded = jwt.verify(token, env.JWT_SECRET) as AuthPayload;
         req.userId = decoded.userId;
+        req.rol = decoded.rol;
         /* console.log(decoded); */
         next();
     } catch (error) {

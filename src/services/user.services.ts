@@ -20,6 +20,7 @@ const createUser = async (data: CreateUserInput): Promise<IUser> => {
         name: data.name,
         email: data.email,
         password: hashedPassword,
+        rol: data.rol,
     });
 
     return user.toObject();

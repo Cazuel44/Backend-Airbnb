@@ -5,13 +5,14 @@ import { createUserSchema, UpdateUserInput, updateUserSchema, userIdSchema } fro
 import type { UserParams } from "../types/users.js";
 
 import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { adminMiddleware } from "../middlewares/admin.middleware.js";
 
 const router = Router();
 
 router.post("/", validate(createUserSchema,"body"), createUser);
-router.get("/", authMiddleware, getUsers)
+router.get("/", authMiddleware, getUsers) //esta ruta tiene proteccion de autenticacion solamente
 router.get("/:id", validate(userIdSchema, "params"), getUserById);
 router.put("/:id",validate(userIdSchema, "params"), validate(updateUserSchema,"body"), updateUser);
-router.delete("/:id", validate(userIdSchema, "params"), deleteUser);
+router.delete("/:id", validate(userIdSchema, "params"), authMiddleware, adminMiddleware, deleteUser);
 
 export default router;

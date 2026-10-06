@@ -23,7 +23,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
 
-    const userId = req.userId;
+    /* const userId = req.userId; */ // sirve para obtener el id del usuario autenticado
 
     const users = await userServices.getUsers();
 
@@ -32,7 +32,7 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({
         message: "Usuarios obtenidos exitosamente",
         users: publicUsers,
-        userId
+        /* userId */
     });
 };
 
@@ -80,3 +80,4 @@ export const deleteUser: RequestHandler<UserParams> = async (req, res): Promise<
     });
 };
 
+// !modificar permisos de usuario por ejemplo un admin que este autorizado para modificar usuarios eliminarlos etc

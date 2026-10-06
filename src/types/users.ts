@@ -5,6 +5,7 @@ export interface IUser{
     name: string;
     email: string;
     password: string;
+    rol: "user" | "admin";
 }
 
 export interface UserParams {

@@ -7,5 +7,6 @@ export interface LoginResponse {
 
 export interface AuthPayload {
     userId: string;
+    rol: "user" | "admin";
     iat: number;
 }

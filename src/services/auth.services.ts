@@ -23,13 +23,14 @@ const loginUser = async (data: LoginInput): Promise<LoginResponse> => {
     }
 
     const token = jwt.sign(
-        { userId: user._id },
+        { userId: user._id, rol: user.rol },
         env.JWT_SECRET
     );
 
     return {
         user: user.toObject(),
-        token
+        token,
+        
     };
 }
 
