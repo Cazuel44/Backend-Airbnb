@@ -60,4 +60,20 @@ export const updateProperty: RequestHandler<{ id: string }> = async (req, res): 
     });
 }
 
+export const deleteProperty: RequestHandler<{ id: string }> = async (req, res): Promise<void> => {
+    const propertyId = req.params.id;
+    const userId = req.userId;
+
+    if (!userId) {
+        throw new AppError("Usuario no autenticado", 401);
+    }
+
+    const deleteProperty = await propertyServices.deleteProperty(propertyId, userId);
+
+    res.status(200).json({
+        message: "Propiedad eliminada exitosamente",
+        property: deleteProperty
+    });
+}
+
 // !modificar permisos de usuario por ejemplo un owner puede modificar sus propiedades o eliminarlas etc

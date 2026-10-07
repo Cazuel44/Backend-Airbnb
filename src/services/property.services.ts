@@ -5,11 +5,11 @@ import { AppError } from '../utils/app-error.js';
 
 const createProperty = async (data: CreatePropertyInput, userId: string): Promise<IProperty> => {
 
-    const existingProperty = await Property.findOne({ title: data.title });
+    /* const existingProperty = await Property.findOne({ title: data.title });
 
     if (existingProperty) {
         throw new AppError("La propiedad ya existe", 409);
-    }
+    } */ // se elimina la condicion para verificar que no exista el titulo porque no permite crear propiedades con el mismo nombre
 
     const property = await Property.create({
         title: data.title,
