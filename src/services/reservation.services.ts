@@ -1,8 +1,9 @@
-import { IReservation } from "../types/reservation.js";
-import Reservation from "../models/reservation.js";
+import { IReservation, IReservationWithProperty } from "../types/reservation.js";
+import Reservation from "../models/Reservation.js";
 import { CreateReservationInput } from "../schemas/reservation.schema.js";
 import { AppError } from "../utils/app-error.js";
 import Property from "../models/Property.js";
+import { IProperty } from "../types/property.js";
 
 
 const createReservation = async (data: CreateReservationInput, userId: string): Promise<IReservation> => {
@@ -45,4 +46,24 @@ const createReservation = async (data: CreateReservationInput, userId: string): 
     return reservation.toObject();
 }
 
-export default { createReservation };
+const getReservationsByUser = async (userId: string): Promise<IReservationWithProperty[]> => {
+    const reservations = await Reservation.find({ user: userId }).populate<{property: IProperty}>("property");
+    return reservations.map(reservation => reservation.toObject());
+}
+
+const getReservationById = async (reservationId: string, userId: string): Promise<IReservationWithProperty> => {
+
+    const reservation = await Reservation.findById(reservationId).populate<{ property: IProperty }>("property");
+
+    if (!reservation) {
+        throw new AppError("Reserva no encontrada", 404);
+    }
+
+    if (reservation.user.toString() !== userId) {
+        throw new AppError("No tienes permisos para ver esta reserva", 403);
+    }
+
+    return reservation.toObject();
+}
+
+export default { createReservation, getReservationsByUser, getReservationById };

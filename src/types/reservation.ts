@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { IProperty } from "./property.js";
 
 export interface IReservation{
     _id: Types.ObjectId;
@@ -10,4 +11,8 @@ export interface IReservation{
     status: "pending" | "confirmed" | "cancelled";
     createdAt: Date;
     updatedAt: Date;
+}
+
+export interface IReservationWithProperty extends Omit<IReservation, "property"> {
+    property: IProperty;
 }

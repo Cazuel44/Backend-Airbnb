@@ -8,3 +8,9 @@ export const createReservationSchema = z.object({
 });
 
 export type CreateReservationInput = z.infer<typeof createReservationSchema>;
+
+export const ReservationIdSchema = z.object({
+    id: z.string().regex(/^[0-9a-fA-F]{24}$/, "El ID de la reserva no es válido"),
+});
+
+export type ReservationIdInput = z.infer<typeof ReservationIdSchema>;
