@@ -1,6 +1,6 @@
 import { Request, Response, RequestHandler } from 'express';
 import reservationServices from '../services/reservation.services.js';
-import { CreateReservationInput } from '../schemas/reservation.schema.js';
+import { CreateReservationInput, UpdateReservationInput } from '../schemas/reservation.schema.js';
 import { AppError } from '../utils/app-error.js';
 
 export const createReservation = async (req: Request, res: Response): Promise<void>=>{
@@ -48,5 +48,38 @@ export const getReservationById: RequestHandler<{ id: string }> = async (req, re
     res.status(200).json({
         message: "Reserva obtenida exitosamente",
         reservation
+    });
+}
+
+export const updateReservation: RequestHandler<{ id: string }> = async (req, res): Promise<void> => {
+    const reservationId = req.params.id;
+    const userId = req.userId;
+    const updateData: UpdateReservationInput = req.body;
+
+    if (!userId) {
+        throw new AppError("Usuario no autenticado", 401);
+    }
+
+    const updatedReservation = await reservationServices.updateReservation(reservationId, userId, updateData);
+
+    res.status(200).json({
+        message: "Reserva actualizada exitosamente",
+        reservation: updatedReservation
+    }); 
+}
+
+export const cancelReservation: RequestHandler<{ id: string }> = async (req, res): Promise<void> => {
+    const reservationId = req.params.id;
+    const userId = req.userId;
+
+    if (!userId) {
+        throw new AppError("Usuario no autenticado", 401);
+    }
+
+    const canceledReservation = await reservationServices.cancelReservation(reservationId, userId);
+
+    res.status(200).json({
+        message: "Reserva cancelada exitosamente",
+        reservation: canceledReservation
     });
 }

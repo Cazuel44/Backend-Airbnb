@@ -9,8 +9,19 @@ export const createReservationSchema = z.object({
 
 export type CreateReservationInput = z.infer<typeof createReservationSchema>;
 
+
 export const ReservationIdSchema = z.object({
     id: z.string().regex(/^[0-9a-fA-F]{24}$/, "El ID de la reserva no es válido"),
 });
 
 export type ReservationIdInput = z.infer<typeof ReservationIdSchema>;
+
+
+export const updateReservationSchema = z.object({
+    checkIn: z.coerce.date().optional(),
+    checkOut: z.coerce.date().optional(),
+}).refine(data => Object.keys(data).length > 0, {
+    message: "Al menos una fecha debe ser proporcionada para actualizar la reserva",
+});
+
+export type UpdateReservationInput = z.infer<typeof updateReservationSchema>;
