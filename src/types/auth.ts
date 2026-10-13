@@ -9,4 +9,10 @@ export interface AuthPayload {
     userId: string;
     rol: "user" | "admin";
     iat: number;
+    exp: number;
+}
+
+export interface IRevokedToken {
+    token: string;
+    expiresAt: Date;
 }

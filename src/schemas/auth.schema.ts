@@ -7,3 +7,12 @@ export const loginSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
+
+export const authPayloadSchema = z.object({
+    userId: z.string().regex(/^[0-9a-fA-F]{24}$/),
+    rol: z.enum(["user", "admin"]),
+    iat: z.number(),
+    exp: z.number(),
+});
+
+export type AuthPayloadInput = z.infer<typeof authPayloadSchema>;
