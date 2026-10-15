@@ -3,7 +3,7 @@ import type { IRevokedToken } from "../types/auth.js";
 
 
 const revokedTokenSchema = new Schema<IRevokedToken>({
-    token:{
+    tokenHash:{
         type: String,
         required: true,
         unique: true,

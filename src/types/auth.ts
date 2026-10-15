@@ -13,6 +13,6 @@ export interface AuthPayload {
 }
 
 export interface IRevokedToken {
-    token: string;
+    tokenHash: string;
     expiresAt: Date;
 }

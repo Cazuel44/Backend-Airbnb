@@ -8,6 +8,7 @@ import type { LoginResponse } from "../types/auth.js";
 import env from "../config/env.js";
 import { toPublicUser } from "../utils/user.utils.js";
 import RevokedToken from "../models/RevokedToken.js";
+import { createHash } from "node:crypto";
 
 const loginUser = async (data: LoginInput): Promise<LoginResponse> => {
     const user = await User.findOne({ email: data.email });
@@ -32,7 +33,7 @@ const loginUser = async (data: LoginInput): Promise<LoginResponse> => {
     return {
         user: user.toObject(),
         token,
-        
+
     };
 }
 
@@ -43,10 +44,14 @@ const logoutService = async (token: string): Promise<void> => {
         throw new AppError("Tokeb de autenticacion inválido", 401);
     }
 
+    const tokenHash = createHash("sha256")
+        .update(token)
+        .digest("hex")
+
     await RevokedToken.create({
-        token,
+        tokenHash,
         expiresAt: new Date(expireToken.exp * 1000)
     })
 };
 
-export default {loginUser, logoutService,}
+export default { loginUser, logoutService, }
