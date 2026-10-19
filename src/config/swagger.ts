@@ -9,9 +9,13 @@ const options: swaggerJsdoc.Options = {
             description: "Documentación de la API de reservas de propiedades",
         },
         servers: [
-            {
+            /* {
                 url: "http://localhost:3000",
                 description: "Servidor local",
+            }, */
+            {
+                url: "https://backend-airbnb-u1hl.onrender.com",
+                description: "Servidor de producción",
             },
         ],
         components: {
